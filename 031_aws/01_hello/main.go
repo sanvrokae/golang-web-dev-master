@@ -11,5 +11,5 @@ func main() {
 }
 
 func index(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "Esto Funciona en AWS")
+	io.WriteString(w, "Oh yeah, I'm running on AWS.")
 }
