@@ -27,7 +27,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		fmt.Printf("%T\n", c)
 	}
-	tpl.ExecuteTemplate(w, "index.gohtml", c)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", c)
 }
 
 func bowzer(w http.ResponseWriter, r *http.Request) {

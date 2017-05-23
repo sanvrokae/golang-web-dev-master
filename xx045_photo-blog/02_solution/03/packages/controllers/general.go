@@ -81,7 +81,7 @@ func createNewFile(r *http.Request, name string) (*os.File, error)  {
 	if err != nil {
 		return nil, err
 	}
-	path := filepath.Join(wd, "public", "pics", name)
+	path := filepath.Join(wd, "public", "files", name)
 	nf, err := os.Create(path)
 	log.Infof(ctx, "%s", path) // fyi
 	if err != nil {

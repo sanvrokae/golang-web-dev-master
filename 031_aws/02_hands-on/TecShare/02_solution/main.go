@@ -6,6 +6,12 @@ import (
 	"html/template"
 	"net/http"
 	"time"
+	"fmt"
+	"strings"
+	"crypto/sha1"
+	"io"
+	"os"
+	"path/filepath"
 )
 
 type user struct {
@@ -35,9 +41,11 @@ func init() {
 
 func main() {
 	http.HandleFunc("/", index)
-	http.HandleFunc("/bar", bar)
+	http.HandleFunc("/indexfiles", findex)
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/login", login)
+	// add route to serve pictures
+	http.Handle("/public/", http.StripPrefix("/public", http.FileServer(http.Dir("./public"))))
 	http.HandleFunc("/logout", logout)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
 	http.ListenAndServe(":8080", nil)
@@ -52,15 +60,15 @@ func index(w http.ResponseWriter, req *http.Request) {
 func bar(w http.ResponseWriter, req *http.Request) {
 	u := getUser(w, req)
 	if !alreadyLoggedIn(w, req) {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
+		http.Redirect(w, req, "/indexfiles", http.StatusSeeOther)
 		return
 	}
 	if u.Role != "007" {
-		http.Error(w, "You must be 007 to enter the bar", http.StatusForbidden)
+		http.Error(w, "debes ser 007 para entrar", http.StatusForbidden)
 		return
 	}
 	showSessions() // for demonstration purposes
-	tpl.ExecuteTemplate(w, "bar.gohtml", u)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", u)
 }
 
 func signup(w http.ResponseWriter, req *http.Request) {
@@ -120,13 +128,13 @@ func login(w http.ResponseWriter, req *http.Request) {
 		// is there a username?
 		u, ok := dbUsers[un]
 		if !ok {
-			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
+			http.Error(w, "El usuario y/o la contraseña no coinciden", http.StatusForbidden)
 			return
 		}
 		// does the entered password match the stored password?
 		err := bcrypt.CompareHashAndPassword(u.Password, []byte(p))
 		if err != nil {
-			http.Error(w, "Username and/or password do not match", http.StatusForbidden)
+			http.Error(w, "El usuario y/o la contraseña no coinciden", http.StatusForbidden)
 			return
 		}
 		// create session
@@ -143,6 +151,41 @@ func login(w http.ResponseWriter, req *http.Request) {
 	}
 	showSessions() // for demonstration purposes
 	tpl.ExecuteTemplate(w, "login.gohtml", u)
+}
+
+func findex(w http.ResponseWriter, req *http.Request) {
+	c := getCookie(w, req)
+	if req.Method == http.MethodPost {
+		mf, fh, err := req.FormFile("nf")
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer mf.Close()
+		// create sha for file name
+		ext := strings.Split(fh.Filename, ".")[1]
+		h := sha1.New()
+		io.Copy(h, mf)
+		fname := fmt.Sprintf("%x", h.Sum(nil)) + "." + ext
+		// create new file
+		wd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err)
+		}
+		path := filepath.Join(wd, "public", "files", fname)
+		nf, err := os.Create(path)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer nf.Close()
+		// copy
+		mf.Seek(0, 0)
+		io.Copy(nf, mf)
+		// add filename to this user's cookie
+		c = appendValue(w, c, fname)
+	}
+	xs := strings.Split(c.Value, "|")
+	// sliced cookie values to only send over images
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", xs[1:])
 }
 
 func logout(w http.ResponseWriter, req *http.Request) {

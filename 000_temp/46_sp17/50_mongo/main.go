@@ -48,5 +48,5 @@ func index(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	tpl.ExecuteTemplate(w, "index.gohtml", customers)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", customers)
 }

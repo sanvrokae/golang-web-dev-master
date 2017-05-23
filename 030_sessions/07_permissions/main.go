@@ -35,7 +35,7 @@ func main() {
 
 func index(w http.ResponseWriter, req *http.Request) {
 	u := getUser(w, req)
-	tpl.ExecuteTemplate(w, "index.gohtml", u)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", u)
 }
 
 func bar(w http.ResponseWriter, req *http.Request) {

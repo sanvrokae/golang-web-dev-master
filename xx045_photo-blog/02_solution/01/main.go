@@ -31,7 +31,7 @@ func main() {
 func index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	c := getCookie(w, r)
 	xs := strings.Split(c.Value, "|")
-	tpl.ExecuteTemplate(w, "index.gohtml", xs[1:]) //only send over images
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", xs[1:]) //only send over images
 }
 
 func indexSubmission(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -52,7 +52,7 @@ func indexSubmission(w http.ResponseWriter, r *http.Request, _ httprouter.Params
 	if err != nil {
 		fmt.Println(err)
 	}
-	path := filepath.Join(wd, "public", "pics", fname)
+	path := filepath.Join(wd, "public", "files", fname)
 	nf, err := os.Create(path)
 	if err != nil {
 		fmt.Println(err)
@@ -65,7 +65,7 @@ func indexSubmission(w http.ResponseWriter, r *http.Request, _ httprouter.Params
 	c = appendValue(w, c, fname)
 
 	xs := strings.Split(c.Value, "|")
-	tpl.ExecuteTemplate(w, "index.gohtml", xs[1:]) //only send over images
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", xs[1:]) //only send over images
 }
 
 func getCookie(w http.ResponseWriter, r *http.Request) *http.Cookie {

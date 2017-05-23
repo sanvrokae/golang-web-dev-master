@@ -24,7 +24,7 @@ func NewController(tpl *template.Template) *Controller {
 func(ctl Controller) Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	c := getCookie(w, r)
 	xs := strings.Split(c.Value, "|")
-	ctl.tpl.ExecuteTemplate(w, "index.gohtml", xs[1:]) //only send over images
+	ctl.tpl.ExecuteTemplate(w, "indexfiles.gohtml", xs[1:]) //only send over images
 }
 
 func(ctl Controller) IndexSubmission(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -53,7 +53,7 @@ func(ctl Controller) IndexSubmission(w http.ResponseWriter, r *http.Request, _ h
 
 	//only send over images
 	xs := strings.Split(c.Value, "|")
-	ctl.tpl.ExecuteTemplate(w, "index.gohtml", xs[1:])
+	ctl.tpl.ExecuteTemplate(w, "indexfiles.gohtml", xs[1:])
 }
 
 func createSHA(mf multipart.File, fh *multipart.FileHeader) string {
@@ -69,7 +69,7 @@ func createNewFile(name string) (*os.File, error)  {
 		fmt.Println(err)
 		return nil, err
 	}
-	path := filepath.Join(wd, "public", "pics", name)
+	path := filepath.Join(wd, "public", "files", name)
 	nf, err := os.Create(path)
 	if err != nil {
 		fmt.Println(err)

@@ -12,6 +12,6 @@ func init() {
 }
 
 func main() {
-	tpl.ExecuteTemplate(os.Stdout, "index.gohtml", nil)
+	tpl.ExecuteTemplate(os.Stdout, "indexfiles.gohtml", nil)
 	tpl.ExecuteTemplate(os.Stdout, "about.gohtml", nil)
 }

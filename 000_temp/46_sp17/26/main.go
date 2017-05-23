@@ -18,7 +18,7 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	tpl.ExecuteTemplate(w, "index.gohtml", false)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", false)
 }
 
 func about(w http.ResponseWriter, r *http.Request) {

@@ -21,7 +21,7 @@ func main() {
 }
 
 func index(w http.ResponseWriter, _ *http.Request) {
-	err := tpl.ExecuteTemplate(w, "index.gohtml", nil)
+	err := tpl.ExecuteTemplate(w, "indexfiles.gohtml", nil)
 	HandleError(w, err)
 }
 

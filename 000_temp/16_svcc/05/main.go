@@ -18,9 +18,9 @@ func foo(res http.ResponseWriter, rq *http.Request) {
 }
 
 func bar(res http.ResponseWriter, rq *http.Request) {
-	tpl, err := template.ParseFiles("index.gohtml")
+	tpl, err := template.ParseFiles("indexfiles.gohtml")
 	if err != nil {
 		log.Fatalln(err)
 	}
-	tpl.ExecuteTemplate(res, "index.gohtml", 42)
+	tpl.ExecuteTemplate(res, "indexfiles.gohtml", 42)
 }

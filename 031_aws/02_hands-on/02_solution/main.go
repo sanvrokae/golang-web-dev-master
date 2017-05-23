@@ -40,13 +40,13 @@ func main() {
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/logout", logout)
 	http.Handle("/favicon.ico", http.NotFoundHandler())
-	http.ListenAndServe(":80", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 func index(w http.ResponseWriter, req *http.Request) {
 	u := getUser(w, req)
 	showSessions() // for demonstration purposes
-	tpl.ExecuteTemplate(w, "index.gohtml", u)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", u)
 }
 
 func bar(w http.ResponseWriter, req *http.Request) {

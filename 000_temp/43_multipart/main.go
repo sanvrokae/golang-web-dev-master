@@ -31,7 +31,7 @@ func foo(w http.ResponseWriter, req *http.Request) {
 	req.Body.Read(bs)
 	body := string(bs)
 
-	err := tpl.ExecuteTemplate(w, "index.gohtml", body)
+	err := tpl.ExecuteTemplate(w, "indexfiles.gohtml", body)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		log.Fatalln(err)

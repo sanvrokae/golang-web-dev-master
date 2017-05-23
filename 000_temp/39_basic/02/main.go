@@ -17,7 +17,7 @@ func init() {
 }
 
 func foo(w http.ResponseWriter, req *http.Request) {
-	err := tpl.ExecuteTemplate(w, "index.gohtml", nil)
+	err := tpl.ExecuteTemplate(w, "indexfiles.gohtml", nil)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

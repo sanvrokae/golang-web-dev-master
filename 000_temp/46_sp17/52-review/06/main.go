@@ -36,5 +36,5 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 
 	xp := []person{p1, p2}
-	tpl.ExecuteTemplate(w, "index.gohtml", xp)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", xp)
 }

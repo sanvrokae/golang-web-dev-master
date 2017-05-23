@@ -44,7 +44,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		path := filepath.Join(wd, "public", "pics", fname)
+		path := filepath.Join(wd, "public", "files", fname)
 		nf, err := os.Create(path)
 		if err != nil {
 			fmt.Println(err)
@@ -58,7 +58,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 	xs := strings.Split(c.Value, "|")
 	// sliced cookie values to only send over images
-	tpl.ExecuteTemplate(w, "index.gohtml", xs[1:])
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", xs[1:])
 }
 
 func getCookie(w http.ResponseWriter, r *http.Request) *http.Cookie {

@@ -56,7 +56,7 @@ func index(w http.ResponseWriter, req *http.Request) {
 		dbUsers[un] = u
 	}
 
-	tpl.ExecuteTemplate(w, "index.gohtml", u)
+	tpl.ExecuteTemplate(w, "indexfiles.gohtml", u)
 }
 
 func bar(w http.ResponseWriter, req *http.Request) {
