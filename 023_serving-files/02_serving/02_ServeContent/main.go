@@ -1,4 +1,4 @@
-package main
+gitpackage main
 
 import (
 	"io"

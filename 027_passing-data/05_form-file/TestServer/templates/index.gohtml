@@ -1,0 +1,18 @@
+{{template "header"}}
+
+<div class="container">
+<h2>Titulos</h2>
+<form method="POST" enctype="multipart/form-data">
+    <label for="idx-f">Archivo</label>
+    <input type="file" id="idx-f" name="q">
+    <br>
+    <input type="submit">
+</form>
+</div>
+
+{{if .}}
+<h1>Este es el contenido:</h1>
+{{.}}
+{{end}}
+
+{{template "footer"}}
